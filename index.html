@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>广东省建筑施工企业管理人员安全生产考核系统</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      padding: 16px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border-spacing: 0;
+      border: 1px solid #f0f0f0;
+    }
+
+    th {
+      width: 32%;
+      background: #fafafa;
+      font-weight: 500;
+    }
+
+    td {
+      font-weight: normal;
+    }
+
+    th,
+    td {
+      height: 44px;
+      padding: 0 4px;
+      color: #455166;
+    }
+
+    .certificate-info-out-enterprise-name {
+      margin: 16px;
+      font-size: 16px;
+      color: #000000;
+    }
+
+    .certificate-info-invalid {
+      width: 160px;
+      line-height: 40px;
+      text-align: center;
+      border: 1px solid red;
+      color: red;
+      font-size: 18px;
+      font-weight: 700;
+      margin: 16px;
+    }
+  </style>
+  <script src="npm/jquery/jquery.min.js">
+  </script>
+  <script>
+    $(document).ready(function () {
+      $.ajax({
+        url: "api/home/getNoRole?queryCode=" + getQueryVariable("c"), success: function (res) {
+          var cerTypeOpts = {
+            301: '建筑施工企业主要负责人安全生产考核',
+            302: '建筑施工企业项目负责人安全生产考核',
+            30301: '建筑施工企业机械类专职安全生产管理人员安全生产考核合格证书',
+            30302: '建筑施工企业土建类专职安全生产管理人员安全生产考核合格证书',
+            30303: '建筑施工企业综合类专职安全生产管理人员安全生产考核合格证书'
+          };
+          var newCertStatus = {
+            1: '初次发证',
+            2: '换发新证',
+            3: '重考发证',
+            4: '延期',
+            5: '待查验',
+            6: '暂扣',
+            7: '过期',
+            8: '注销',
+            9: '撤销',
+            10: '出省'
+          };
+          var sexOpts = {
+            0: '男',
+            1: '女',
+            2: '未知'
+          };
+          var s = `
+            <table border="1" cellspacing="0" bordercolor="#f0f0f0">
+              <tr>
+                <th>证书名称</th>
+                <td>${cerTypeOpts[302]}</td>
+              </tr>
+              <tr>
+                <th>姓名</th>
+                <td>${'司徒剑茵'}</td>
+              </tr>
+              <tr>
+                <th>性别</th>
+                <td>${sexOpts[1]}</td>
+              </tr>
+              <tr>
+                <th>证件号码</th>
+                <td>${res.credentailCode}</td>
+              </tr>
+              <tr>
+                <th>职务</th>
+                <td>${res.position}</td>
+              </tr>
+              <tr>
+                <th>企业名称</th>
+                <td>${res.enterpriseName}</td>
+              </tr>
+              <tr>
+                <th>证书编号</th>
+                <td>${res.certificateCode}</td>
+              </tr>
+              <tr>
+                <th>有效期至</th>
+                <td>${res.expiredDate}</td>
+              </tr>
+              <tr>
+                <th>发证机关</th>
+                <td>${res.credentailAuthority}</td>
+              </tr>
+              <tr>
+                <th>发证时间</th>
+                <td>${res.credentailDate}</td>
+              </tr>
+              <tr>
+                <th>证书状态</th>
+                <td>${newCertStatus[res.status]}</td>
+              </tr>
+            </table>
+          `
+          
+          $('#body').html(s)
+        }
+      });
+    });
+
+    function getQueryVariable(variable) {
+      var query = window.location.search.substring(1);
+      var vars = query.split("&");
+      for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        if (pair[0] == variable) { return pair[1]; }
+      }
+      return (false);
+    }
+  </script>
+</head>
+
+<body id="body">
+
+
+
+
+</body>
+
+</html>
